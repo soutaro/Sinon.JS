@@ -500,6 +500,19 @@ buster.testCase("sinon.clock", {
             var clock = this.clock;
             var value = clock.tick(200);
             assert.equals(clock.now, value);
+        },
+
+
+        "passes time during nested setImmedaite": function() {
+            var clock = this.clock;
+
+            function f() {
+                clock.setImmediate(f);
+            }
+
+            clock.tick(1);
+
+            assert(true);
         }
     },
 
