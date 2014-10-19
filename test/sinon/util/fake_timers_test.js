@@ -326,16 +326,16 @@ buster.testCase("sinon.clock", {
             this.clock.tick(100);
 
             assert.equals(spy.callCount, 10);
-            assert(spy.calledWith(10));
-            assert(spy.calledWith(20));
-            assert(spy.calledWith(30));
-            assert(spy.calledWith(40));
-            assert(spy.calledWith(50));
-            assert(spy.calledWith(60));
-            assert(spy.calledWith(70));
-            assert(spy.calledWith(80));
-            assert(spy.calledWith(90));
-            assert(spy.calledWith(100));
+            assert(spy.calledWith(11));
+            assert(spy.calledWith(21));
+            assert(spy.calledWith(31));
+            assert(spy.calledWith(41));
+            assert(spy.calledWith(51));
+            assert(spy.calledWith(61));
+            assert(spy.calledWith(71));
+            assert(spy.calledWith(81));
+            assert(spy.calledWith(91));
+            assert(spy.calledWith(101));
         },
 
         "fires timer in intervals of 13": function () {
@@ -348,27 +348,19 @@ buster.testCase("sinon.clock", {
         },
 
         "fires timers in correct order": function () {
-            var spy13 = sinon.spy.create();
-            var spy10 = sinon.spy.create();
+            var trace = [];
 
             this.clock.setInterval(function () {
-                spy13(new Date().getTime());
+                trace.push(13);
             }, 13);
 
             this.clock.setInterval(function () {
-                spy10(new Date().getTime());
+                trace.push(10);
             }, 10);
 
             this.clock.tick(500);
 
-            assert.equals(spy13.callCount, 38);
-            assert.equals(spy10.callCount, 50);
-
-            assert(spy13.calledWith(416));
-            assert(spy10.calledWith(320));
-
-            assert(spy10.getCall(0).calledBefore(spy13.getCall(0)));
-            assert(spy10.getCall(4).calledBefore(spy13.getCall(3)));
+            assert.equals(trace.slice(0, 10), [10, 13, 10, 13, 10, 13, 10, 10, 13, 10])
         },
 
         "triggers timeouts and intervals in the order scheduled": function () {
@@ -479,7 +471,7 @@ buster.testCase("sinon.clock", {
 
             callback();
 
-            clock.tick(1000);
+            clock.tick(1010);
 
             assert.equals(i, 11);
         },
